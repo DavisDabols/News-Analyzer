@@ -12,4 +12,4 @@ SITES = {
 }
 
 #Meklēšanas perioda izvēles
-TIMEPERIODS = ["Pēdējās 24h", "Pēdējās 7 dienas", "Pēdējās 30 dienas"]
+TIMEPERIODS = ["Šodien", "Pēdējās 7 dienas", "Pēdējās 30 dienas"]

@@ -3,6 +3,7 @@ from tkinter import ttk
 from tkinter import messagebox
 
 import settings
+import Scraper.scraper as scraper
 
 #Paņem galveno logu no iestatījumu faila
 root = settings.root
@@ -37,7 +38,7 @@ SiteSelectionButton.grid(row=0, column=0, padx=5, pady=5, sticky="nsew")
 SiteLabel = tk.Label(SearchGrid, text="Izvēlēto mājaslapu skaits: 0")
 SiteLabel.grid(row=0, column=1, padx=5, pady=5, sticky="nsew")
 
-SearchLabel = tk.Label(SearchGrid, text="Meklējamais teksts:")
+SearchLabel = tk.Label(SearchGrid, text="Meklējamais teksts (bez garumzīmēm):")
 SearchLabel.grid(row=1, column=0, padx=5, pady=5, sticky="nsew")
 
 SearchEntry = tk.Entry(SearchGrid, width=50)
@@ -51,7 +52,7 @@ TimeCombo.grid(row=2, column=1, padx=5, pady=5, sticky="nsew")
 
 SearchGrid.pack(padx=10, pady=10)
 
-SearchButton = tk.Button(root, text="Meklēt", font=('Verdana', 14))
+SearchButton = tk.Button(root, text="Meklēt", font=('Verdana', 14), command=lambda: scraper.Scraper(SearchEntry.get(), TimeCombo.get()))
 SearchButton.pack(padx=5, pady=5)
 
 root.mainloop()
