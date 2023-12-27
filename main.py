@@ -43,6 +43,12 @@ SearchLabel.grid(row=1, column=0, padx=5, pady=5, sticky="nsew")
 SearchEntry = tk.Entry(SearchGrid, width=50)
 SearchEntry.grid(row=1, column=1, padx=5, pady=5, sticky="nsew")
 
+TimeLabel = tk.Label(SearchGrid, text="Meklējamais laika periods:")
+TimeLabel.grid(row=2, column=0, padx=5, pady=5, sticky="nsew")
+
+TimeCombo = ttk.Combobox(SearchGrid, state="readonly", values=settings.TIMEPERIODS)
+TimeCombo.grid(row=2, column=1, padx=5, pady=5, sticky="nsew")
+
 SearchGrid.pack(padx=10, pady=10)
 
 SearchButton = tk.Button(root, text="Meklēt", font=('Verdana', 14))

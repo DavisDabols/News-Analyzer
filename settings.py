@@ -10,3 +10,6 @@ SITES = {
     "Delfi": tk.Variable(root, False),
     "LSM": tk.Variable(root, False)
 }
+
+#Meklēšanas perioda izvēles
+TIMEPERIODS = ["Pēdējās 24h", "Pēdējās 7 dienas", "Pēdējās 30 dienas"]
