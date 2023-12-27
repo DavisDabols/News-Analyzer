@@ -2,21 +2,14 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
 
-#Izveido galveno logu un konfigurē to
-root = tk.Tk()
+import settings
 
-root.geometry("850x500")
-root.title("News Analyzer")
-
-#Mājaslapu opcijas
-SITES = {
-    "Delfi": tk.Variable(root, False),
-    "LSM": tk.Variable(root, False)
-}
+#Paņem galveno logu no iestatījumu faila
+root = settings.root
 
 #Funkcija SiteLabel teksta atjaunošanai
 def UpdateSelectedSiteCount():
-    SELECTEDSITECOUNT = sum(SITES[site].get() == True for site in SITES)
+    SELECTEDSITECOUNT = sum(settings.SITES[site].get() == True for site in settings.SITES)
     SiteLabel.configure(text=f"Izvēlēto mājaslapu skaits: {SELECTEDSITECOUNT}")
 
 #Funkcija mājaslapu izvēles logam
@@ -29,8 +22,8 @@ def SiteSelection():
     DescriptionLabel.pack(padx=10, pady=10)
 
     #Izvada visas mājaslapas kā checkbox
-    for site in SITES:
-        SiteCheckbox = tk.Checkbutton(ss, text=site, variable=SITES[site], onvalue=True, offvalue=False, command=UpdateSelectedSiteCount)
+    for site in settings.SITES:
+        SiteCheckbox = tk.Checkbutton(ss, text=site, variable=settings.SITES[site], onvalue=True, offvalue=False, command=UpdateSelectedSiteCount)
         SiteCheckbox.pack()
 
 DescriptionLabel = tk.Label(root, text="Ziņu analizators", font=('Verdana', 18))
