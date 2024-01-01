@@ -17,4 +17,6 @@ def Scraper(query, time):
         return 400
     if settings.SITES["delfi"]["enabled"].get() == True:
         results["delfi"] = delfi.DelfiScraper(query, starttime, date.today())
+        if results["delfi"] == {}:
+            messagebox.showwarning(title="Delfi", message="Mājaslapā delfi nekas netika atrasts!")
     print(results)

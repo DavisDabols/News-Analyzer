@@ -20,7 +20,7 @@ def DelfiScraper(query, starttime, endtime):
     options.add_argument('--allow-running-insecure-content')
     options.add_experimental_option('excludeSwitches', ['enable-logging'])
     options.add_argument('--incognito')
-#    options.add_argument('--headless')
+    options.add_argument('--headless')
     browser = webdriver.Chrome(options=options)
     while True:
         #Delfi mājaslapas kļūmes dēļ nevar iegūt laika periodus no mājaslapas (vienmēr automātiski atjaunojas uz 1.1.24)
