@@ -4,6 +4,7 @@ from tkinter import messagebox
 
 import Scraper.delfi as delfi
 import Scraper.lsm as lsm
+import Scraper.tvnet as tvnet
 
 def Scraper(query, time):
     results = {}
@@ -24,4 +25,8 @@ def Scraper(query, time):
         results["lsm"] = lsm.LsmScraper(query, starttime, date.today())
         if results["lsm"] == {}:
             messagebox.showwarning(title="LSM", message="Mājaslapā LSM nekas netika atrasts!")
+    if settings.SITES["tvnet"]["enabled"].get() == True:
+        results["tvnet"] = tvnet.TvnetScraper(query, starttime, date.today())
+        if results["tvnet"] == {}:
+            messagebox.showwarning(title="TVNET", message="Mājaslapā TVNET nekas netika atrasts!")
     print(results)

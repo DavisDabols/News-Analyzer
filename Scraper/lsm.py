@@ -1,6 +1,5 @@
 from datetime import datetime
 import re
-from datetime import date
 from bs4 import BeautifulSoup as bs
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -9,7 +8,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 import chromedriver_autoinstaller
 
-def LsmScraper(query, starttime, endtime):
+def LSMScraper(query, starttime, endtime):
     #Instalē chromedriver, ja tas vēl nav izdarīts
     chromedriver_autoinstaller.install()
 

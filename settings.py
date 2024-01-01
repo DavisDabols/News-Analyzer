@@ -16,6 +16,11 @@ SITES = {
         "name": "LSM",
         "country": "lv",
         "enabled": tk.Variable(root, False)
+    },
+    "tvnet": {
+        "name": "TVNET",
+        "country": "lv",
+        "enabled": tk.Variable(root, False)
     }
 }
 
