@@ -12,6 +12,11 @@ SITES = {
         "country": "lv",
         "enabled": tk.Variable(root, False)
         },
+    "lsm": {
+        "name": "LSM",
+        "country": "lv",
+        "enabled": tk.Variable(root, False)
+    }
 }
 
 #Meklēšanas perioda izvēles

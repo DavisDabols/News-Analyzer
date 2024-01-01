@@ -1,4 +1,3 @@
-import time
 from datetime import datetime
 from bs4 import BeautifulSoup as bs
 from selenium import webdriver
@@ -36,7 +35,6 @@ def DelfiScraper(query, starttime, endtime):
         main = soup.find(id="portal-main-content")
         #Atrod rakstu elementus
         elements = main.find_all("article", class_="d-flex align-items-center text-size-4 headline headline--text-aside headline--archive")
-        print(elements)
 
         #Ja lapā nav raksti, viss tiek atgriezts
         if elements == []:

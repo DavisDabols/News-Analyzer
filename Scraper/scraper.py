@@ -3,6 +3,7 @@ from datetime import date, timedelta
 from tkinter import messagebox
 
 import Scraper.delfi as delfi
+import Scraper.lsm as lsm
 
 def Scraper(query, time):
     results = {}
@@ -19,4 +20,8 @@ def Scraper(query, time):
         results["delfi"] = delfi.DelfiScraper(query, starttime, date.today())
         if results["delfi"] == {}:
             messagebox.showwarning(title="Delfi", message="Mājaslapā delfi nekas netika atrasts!")
+    if settings.SITES["lsm"]["enabled"].get() == True:
+        results["lsm"] = lsm.LsmScraper(query, starttime, date.today())
+        if results["lsm"] == {}:
+            messagebox.showwarning(title="LSM", message="Mājaslapā LSM nekas netika atrasts!")
     print(results)
