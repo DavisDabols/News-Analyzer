@@ -7,8 +7,11 @@ root.title("News Analyzer")
 
 #Mājaslapu opcijas
 SITES = {
-    "Delfi": tk.Variable(root, False),
-    "LSM": tk.Variable(root, False)
+    "delfi": {
+        "name": "Delfi (meklē no 1.1.24)",
+        "country": "lv",
+        "enabled": tk.Variable(root, False)
+        },
 }
 
 #Meklēšanas perioda izvēles

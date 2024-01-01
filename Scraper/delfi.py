@@ -20,21 +20,27 @@ def DelfiScraper(query, starttime, endtime):
     options.add_argument('--allow-running-insecure-content')
     options.add_experimental_option('excludeSwitches', ['enable-logging'])
     options.add_argument('--incognito')
-    options.add_argument('--headless')
+#    options.add_argument('--headless')
     browser = webdriver.Chrome(options=options)
     while True:
-        #Delfi mājaslapas kļūmes dēļ nevar iegūt laika periodus no mājaslapas (vienmēr automātiski atjaunojas uz 1.1.23)
-        URL = f"https://www.delfi.lv/archive?search={query}&from=1/1/2023,+12:00:00+AM&to={endtime.day}/{endtime.month}/{endtime.year},+11:59:59+PM&page={pagenumber}&order=PUBLISH_AT&domain=www.delfi.lv"
+        #Delfi mājaslapas kļūmes dēļ nevar iegūt laika periodus no mājaslapas (vienmēr automātiski atjaunojas uz 1.1.24)
+        URL = f"https://www.delfi.lv/archive?search={query}&from=1/1/2024,+12:00:00+AM&to={endtime.day}/{endtime.month}/{endtime.year},+11:59:59+PM&page={pagenumber}&order=PUBLISH_AT&domain=www.delfi.lv"
         browser.get(URL)
-        WebDriverWait(browser, 20).until(EC.visibility_of_element_located((By.TAG_NAME, "article")))
+        try:
+            WebDriverWait(browser, 10).until(EC.visibility_of_element_located((By.TAG_NAME, "article")))
+        except:
+            browser.close()
+            return articles
         soup = bs(browser.page_source, "html.parser")
         #Atrod lapas saturu
         main = soup.find(id="portal-main-content")
         #Atrod rakstu elementus
         elements = main.find_all("article", class_="d-flex align-items-center text-size-4 headline headline--text-aside headline--archive")
+        print(elements)
 
         #Ja lapā nav raksti, viss tiek atgriezts
-        if elements == None:
+        if elements == []:
+            browser.close()
             return articles
 
         for element in elements:
@@ -44,5 +50,7 @@ def DelfiScraper(query, starttime, endtime):
             if date >= starttime:
                 if date <= endtime:
                     articles[elementText["href"]] = elementText.text.strip()
-            else: return articles
+            else: 
+                browser.close()
+                return articles
         pagenumber = pagenumber + 1

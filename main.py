@@ -10,7 +10,7 @@ root = settings.root
 
 #Funkcija SiteLabel teksta atjaunošanai
 def UpdateSelectedSiteCount():
-    SELECTEDSITECOUNT = sum(settings.SITES[site].get() == True for site in settings.SITES)
+    SELECTEDSITECOUNT = sum(settings.SITES[site]["enabled"].get() == True for site in settings.SITES)
     SiteLabel.configure(text=f"Izvēlēto mājaslapu skaits: {SELECTEDSITECOUNT}")
 
 #Funkcija mājaslapu izvēles logam
@@ -24,7 +24,7 @@ def SiteSelection():
 
     #Izvada visas mājaslapas kā checkbox
     for site in settings.SITES:
-        SiteCheckbox = tk.Checkbutton(ss, text=site, variable=settings.SITES[site], onvalue=True, offvalue=False, command=UpdateSelectedSiteCount)
+        SiteCheckbox = tk.Checkbutton(ss, text=settings.SITES[site]["name"], variable=settings.SITES[site]["enabled"], onvalue=True, offvalue=False, command=UpdateSelectedSiteCount)
         SiteCheckbox.pack()
 
 DescriptionLabel = tk.Label(root, text="Ziņu analizators", font=('Verdana', 18))

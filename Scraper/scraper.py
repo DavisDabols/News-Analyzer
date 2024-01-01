@@ -15,6 +15,6 @@ def Scraper(query, time):
     else:
         messagebox.showerror(title="Error", message="Nepareizs laika periods")
         return 400
-    if settings.SITES["Delfi"].get() == True:
-        results["Delfi"] = delfi.DelfiScraper(query, starttime, date.today())
+    if settings.SITES["delfi"]["enabled"].get() == True:
+        results["delfi"] = delfi.DelfiScraper(query, starttime, date.today())
     print(results)
