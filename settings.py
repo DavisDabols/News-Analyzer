@@ -21,6 +21,11 @@ SITES = {
         "name": "TVNET",
         "country": "lv",
         "enabled": tk.Variable(root, False)
+    },
+    "apollo": {
+        "name": "Apollo",
+        "country": "lv",
+        "enabled": tk.Variable(root, False)
     }
 }
 

@@ -5,6 +5,7 @@ from tkinter import messagebox
 import Scraper.delfi as delfi
 import Scraper.lsm as lsm
 import Scraper.tvnet as tvnet
+import Scraper.apollo as apollo
 
 def Scraper(query, time):
     results = {}
@@ -29,4 +30,8 @@ def Scraper(query, time):
         results["tvnet"] = tvnet.TvnetScraper(query, starttime, date.today())
         if results["tvnet"] == {}:
             messagebox.showwarning(title="TVNET", message="Mājaslapā TVNET nekas netika atrasts!")
+    if settings.SITES["apollo"]["enabled"].get() == True:
+        results["apollo"] = apollo.ApolloScraper(query, starttime, date.today())
+        if results["apollo"] == {}:
+            messagebox.showwarning(title="Apollo", message="Mājaslapā Apollo nekas netika atrasts!")
     print(results)
