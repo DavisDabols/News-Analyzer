@@ -1,7 +1,7 @@
 import tkinter as tk
-from tkinter import ttk
 
 import Scraper.scraper as scraper
+import Pages.results as res
 
 def openLoadingPage(query, time):
     lp = tk.Toplevel()
@@ -25,8 +25,11 @@ def openLoadingPage(query, time):
 
     lp.update()
 
-    scraper.Scraper(query, time)
+    results = scraper.Scraper(query, time)
 
     # Pēc Scrapper funkcijas izpildes iznīcina logu
     lp.destroy()
     lp.update()
+
+    res.searchResults(results)
+

@@ -36,4 +36,4 @@ def Scraper(query, time):
         results["apollo"] = apollo.ApolloScraper(query, starttime, date.today())
         if results["apollo"] == {}:
             messagebox.showwarning(title="Apollo", message="Mājaslapā Apollo nekas netika atrasts!")
-    print(results)
+    return results
