@@ -9,6 +9,7 @@ import Scraper.apollo as apollo
 
 def Scraper(query, time):
     results = {}
+    #Iegūst izvēlēto sākuma datumu
     if time == "Šodien":
         starttime = date.today()
     elif time == "Pēdējās 7 dienas":
@@ -18,12 +19,13 @@ def Scraper(query, time):
     else:
         messagebox.showerror(title="Error", message="Nepareizs laika periods")
         return 400
+    #Palaiž skrāpētājus katrai mājaslapai (gribētu loop, bet nevaru atrast kā izsaukt komandu šajā situācijā neizmantojot exec)
     if settings.SITES["delfi"]["enabled"].get() == True:
         results["delfi"] = delfi.DelfiScraper(query, starttime, date.today())
         if results["delfi"] == {}:
             messagebox.showwarning(title="Delfi", message="Mājaslapā delfi nekas netika atrasts!")
     if settings.SITES["lsm"]["enabled"].get() == True:
-        results["lsm"] = lsm.LsmScraper(query, starttime, date.today())
+        results["lsm"] = lsm.LSMScraper(query, starttime, date.today())
         if results["lsm"] == {}:
             messagebox.showwarning(title="LSM", message="Mājaslapā LSM nekas netika atrasts!")
     if settings.SITES["tvnet"]["enabled"].get() == True:

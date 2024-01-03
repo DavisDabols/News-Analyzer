@@ -4,6 +4,7 @@ from tkinter import messagebox
 
 import settings
 import Scraper.scraper as scraper
+import Pages.loading_page as lp
 
 #Paņem galveno logu no iestatījumu faila
 root = settings.root
@@ -52,7 +53,7 @@ TimeCombo.grid(row=2, column=1, padx=5, pady=5, sticky="nsew")
 
 SearchGrid.pack(padx=10, pady=10)
 
-SearchButton = tk.Button(root, text="Meklēt", font=('Verdana', 14), command=lambda: scraper.Scraper(SearchEntry.get(), TimeCombo.get()))
+SearchButton = tk.Button(root, text="Meklēt", font=('Verdana', 14), command=lambda: lp.openLoadingPage(SearchEntry.get(), TimeCombo.get()))# scraper.Scraper(SearchEntry.get(), TimeCombo.get()))
 SearchButton.pack(padx=5, pady=5)
 
 root.mainloop()
