@@ -47,7 +47,8 @@ def DelfiScraper(query, starttime, endtime):
             date = datetime.strptime(elementDate["datetime"].split('T', 1)[0], '%Y-%m-%d').date()
             if date >= starttime:
                 if date <= endtime:
-                    articles[f"https://www.delfi.lv{elementText['href']}"] = elementText.text.strip()
+                    articles[f"https://www.delfi.lv{elementText['href']}"] = {'Title': elementText.text.strip(),
+                                                                              'Date': date}
             else: 
                 browser.close()
                 return articles

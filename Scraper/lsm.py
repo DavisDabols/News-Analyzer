@@ -51,7 +51,8 @@ def LSMScraper(query, starttime, endtime):
                 if dateObj >= starttime:
                     errorcount = 0
                     if dateObj <= endtime:
-                        articles[elementText["href"]] = elementText.text.strip()
+                        articles[elementText["href"]] = {'Title': elementText.text.strip(),
+                                                         'Date': dateObj}
                 else:
                     #Pārbauda vai ir 3 raksti pēc kārtas pirms sākuma datuma (LSM mēdz iebāzt vecus rakstus starp jauniem)
                     errorcount = errorcount + 1

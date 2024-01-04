@@ -52,7 +52,8 @@ def ApolloScraper(query, starttime, endtime):
             date = datetime.strptime(elementDate["content"].split('T', 1)[0], '%Y-%m-%d').date()
             if date >= starttime:
                 if date <= endtime:
-                    articles[elementHref["href"]] = elementText.text.strip()
+                    articles[elementHref["href"]] = {'Title': elementText.text.strip(),
+                                                     'Date': date}
             else: 
                 browser.close()
                 return articles

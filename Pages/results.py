@@ -5,8 +5,9 @@ import webbrowser as wb
 def onDoubleClick(event):
     SearchTree = event.widget
     article = SearchTree.identify('item',event.x,event.y)
-    link = SearchTree.item(article)['values'][2]
-    wb.open_new_tab(link)
+    link = SearchTree.item(article)['values'][3]
+    if link != "":
+        wb.open_new_tab(link)
 
 def searchResults(results):
 
@@ -24,16 +25,24 @@ def searchResults(results):
     ResultFrame = tk.Frame(sresult)
 
     # Definē tabulu
-    columns = ('homepage', 'title', 'page')
-    SearchTree = ttk.Treeview(ResultFrame, columns=columns, show="headings")
+    columns = ('homepage', 'title', 'date', 'page')
+    SearchTree = ttk.Treeview(ResultFrame, columns=columns, show="tree headings", selectmode="none")
     SearchTree.heading('homepage', text="Mājaslapa")
     SearchTree.heading('title', text="Virsraksts")
-    SearchTree.heading('page', text="Adrese")
+    SearchTree.heading('date', text="Datums")
+
+    SearchTree.column('homepage', width=100)
+    SearchTree.column('title', width=500)
+    minwidth = SearchTree.column('#0', option='minwidth')
+    SearchTree.column('#0', width=minwidth)
+    SearchTree.column('date', width=100)
+    SearchTree.column('page', width=0, stretch="no")
+
     # Atjaunina tabulas saturu
     for result in results:
+        SearchTree.insert('', tk.END, iid=result, open=False, values=(result, "", "", ""))
         for article in results[result]:
-            print(article)
-            SearchTree.insert('', tk.END, values=(result, results[result][article], article))
+            SearchTree.insert(result, tk.END, values=(result, results[result][article]['Title'], results[result][article]['Date'], article))
     SearchTree.grid(row=0, column=0, sticky="nsew")
     SearchTree.bind('<Double-1>', onDoubleClick)
     # Pievieno ritjoslu rāmim
