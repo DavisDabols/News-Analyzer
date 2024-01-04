@@ -1,6 +1,9 @@
 import tkinter as tk
 from tkinter import ttk
+from tkinter import filedialog
 import webbrowser as wb
+import pandas as pd
+from datetime import datetime
 
 def onDoubleClick(event):
     SearchTree = event.widget
@@ -8,6 +11,15 @@ def onDoubleClick(event):
     link = SearchTree.item(article)['values'][3]
     if link != "":
         wb.open_new_tab(link)
+
+def toExcel(results):
+    articleList = []
+    for result in results:
+        for article in results[result]:
+            articleList.append([result, results[result][article]['Title'], results[result][article]['Date'], article])
+    df = pd.DataFrame(articleList)
+    file_name = filedialog.asksaveasfilename(filetypes=[('excel file', '*.xlsx')], defaultextension='.xlsx', initialfile=f"results-{datetime.now().strftime('%d-%m-%yT%H-%M')}")
+    df.to_excel(file_name, sheet_name='results', index=False, header=["Mājaslapa", "Virsraksts", "Datums", "Lapa"])
 
 def searchResults(results):
 
@@ -17,6 +29,13 @@ def searchResults(results):
 
     DescriptionLabel = tk.Label(sresult, text="Meklēšanas rezultāti", font=('Verdana', 18))
     DescriptionLabel.pack(padx=10, pady=10)
+
+    ButtonFrame = tk.Frame(sresult)
+
+    ToExcelButton = tk.Button(ButtonFrame, text="Izvadīt excel failā", font=('Verdana', 14), command=lambda: toExcel(results))
+    ToExcelButton.grid(row=0, column=0, padx=5, pady=5, sticky="nsew")
+
+    ButtonFrame.pack(padx=10, pady=10)
 
     HelpLabel = tk.Label(sresult, text="Nospiediet dubultklikšķi, lai atvērtu rakstu", font=('Verdana', 10))
     HelpLabel.pack(padx=10, pady=10)
