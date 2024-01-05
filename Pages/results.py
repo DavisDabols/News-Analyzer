@@ -1,9 +1,19 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog
+from tkinter import messagebox
 import webbrowser as wb
 import pandas as pd
-from datetime import datetime
+from datetime import datetime, timedelta
+from datetime import date
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib
+
+from matplotlib.backends.backend_tkagg import (
+    FigureCanvasTkAgg, # interface between Figure class and Tkinter's Canvas
+    NavigationToolbar2Tk # built-in toolbar for the figure
+)
 
 def onDoubleClick(event):
     SearchTree = event.widget
@@ -21,8 +31,52 @@ def toExcel(results):
     file_name = filedialog.asksaveasfilename(filetypes=[('excel file', '*.xlsx')], defaultextension='.xlsx', initialfile=f"results-{datetime.now().strftime('%d-%m-%yT%H-%M')}")
     df.to_excel(file_name, sheet_name='results', index=False, header=["Mājaslapa", "Virsraksts", "Datums", "Lapa"])
 
-def searchResults(results):
+def dailyGraph(results):
+    countDict = {}
+    for result in results:
+        for article in results[result]:
+            day = results[result][article]['Date']
+            if day in countDict:
+                countDict[day] += 1
+            else:
+                countDict[day] = 1
 
+    if len(set(countDict.keys())) < 3:
+        messagebox.showerror(title="Diagrammas kļūda", message="Nav rezultāti par pietiekami daudz dienām!")
+        return
+    
+    minDay = min(countDict)
+    maxDay = max(countDict)
+
+    for x in range(0, (maxDay - minDay).days):
+        day = minDay + timedelta(days=x)
+        if day not in countDict:
+            countDict[day] = 0
+
+    countDict = dict(sorted(countDict.items()))
+    x = list(countDict.keys())
+    y = list(countDict.values())
+
+    graphWindow = tk.Toplevel()
+    graphWindow.title("Dienā izveidoto rakstu diagramma")
+
+    figure = matplotlib.figure.Figure()
+    graph = figure.add_subplot()
+    graph.plot(x, y)
+    
+    for tick in graph.get_xticklabels():
+        tick.set_rotation(90)
+
+    canvas = FigureCanvasTkAgg(figure, graphWindow)
+    canvas.draw()
+    toolbar = NavigationToolbar2Tk(canvas, graphWindow)
+    toolbar.update()
+
+    canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+
+    graphWindow.update()
+
+def searchResults(results):
     sresult = tk.Toplevel()
     sresult.title("Meklēšanas rezultāti")
     sresult.geometry("850x500")
@@ -34,6 +88,9 @@ def searchResults(results):
 
     ToExcelButton = tk.Button(ButtonFrame, text="Izvadīt excel failā", font=('Verdana', 14), command=lambda: toExcel(results))
     ToExcelButton.grid(row=0, column=0, padx=5, pady=5, sticky="nsew")
+
+    DailyArticlesButton = tk.Button(ButtonFrame, text="Dienā izveidoto rakstu diagramma", font=('Verdana', 14), command=lambda: dailyGraph(results))
+    DailyArticlesButton.grid(row=0, column=1, padx=5, pady=5, sticky="nsew")
 
     ButtonFrame.pack(padx=10, pady=10)
 
