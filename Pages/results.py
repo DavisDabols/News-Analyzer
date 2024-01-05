@@ -41,7 +41,7 @@ def dailyGraph(results):
             else:
                 countDict[day] = 1
 
-    if len(set(countDict.keys())) < 3:
+    if len(set(countDict.keys())) < 2:
         messagebox.showerror(title="Diagrammas kļūda", message="Nav rezultāti par pietiekami daudz dienām!")
         return
     
@@ -76,6 +76,26 @@ def dailyGraph(results):
 
     graphWindow.update()
 
+def siteGraph(results):
+    graphWindow = tk.Toplevel()
+    graphWindow.title("Mājaslapu rakstu skaita diagramma")
+
+    x = results.keys()
+    y = list(map(lambda site: len(results[site]), results))
+
+    figure = matplotlib.figure.Figure()
+    graph = figure.add_subplot()
+    graph.bar(x, y)
+
+    canvas = FigureCanvasTkAgg(figure, graphWindow)
+    canvas.draw()
+    toolbar = NavigationToolbar2Tk(canvas, graphWindow)
+    toolbar.update()
+
+    canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+
+    graphWindow.update()
+
 def searchResults(results):
     sresult = tk.Toplevel()
     sresult.title("Meklēšanas rezultāti")
@@ -86,11 +106,14 @@ def searchResults(results):
 
     ButtonFrame = tk.Frame(sresult)
 
-    ToExcelButton = tk.Button(ButtonFrame, text="Izvadīt excel failā", font=('Verdana', 14), command=lambda: toExcel(results))
-    ToExcelButton.grid(row=0, column=0, padx=5, pady=5, sticky="nsew")
-
     DailyArticlesButton = tk.Button(ButtonFrame, text="Dienā izveidoto rakstu diagramma", font=('Verdana', 14), command=lambda: dailyGraph(results))
-    DailyArticlesButton.grid(row=0, column=1, padx=5, pady=5, sticky="nsew")
+    DailyArticlesButton.grid(row=0, column=0, padx=5, pady=5, sticky="nsew")
+
+    SiteGraphButton = tk.Button(ButtonFrame, text="Mājaslapu rakstu skaita diagramma", font=('Verdana', 14), command=lambda: siteGraph(results))
+    SiteGraphButton.grid(row=0, column=1, padx=5, pady=5, sticky="nsew")
+
+    ToExcelButton = tk.Button(ButtonFrame, text="Izvadīt excel failā", font=('Verdana', 14), command=lambda: toExcel(results))
+    ToExcelButton.grid(row=1, column=0, columnspan=2, padx=5, pady=5, sticky="nsew")
 
     ButtonFrame.pack(padx=10, pady=10)
 
