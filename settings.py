@@ -32,8 +32,8 @@ SITES = {
         "country": "en",
         "enabled": tk.Variable(root, False)
     },
-    "reuters": {
-        "name": "Reuters",
+    "cnn": {
+        "name": "CNN",
         "country": "en",
         "enabled": tk.Variable(root, False)
     }

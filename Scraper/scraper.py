@@ -7,6 +7,7 @@ import Scraper.lsm as lsm
 import Scraper.tvnet as tvnet
 import Scraper.apollo as apollo
 import Scraper.apnews as apnews
+import Scraper.cnn as cnn
 
 def Scraper(query, time):
     results = {}
@@ -41,4 +42,8 @@ def Scraper(query, time):
         results["apnews"] = apnews.APnewsScraper(query['en'], starttime, date.today())
         if results["apnews"] == {}:
             messagebox.showwarning(title="APnews", message="Mājaslapā Associated Press nekas netika atrasts!")
+    if settings.SITES["cnn"]["enabled"].get() == True:
+        results["cnn"] = cnn.CNNScraper(query['en'], starttime, date.today())
+        if results["cnn"] == {}:
+            messagebox.showwarning(title="CNN", message="Mājaslapā CNN nekas netika atrasts!")
     return results
