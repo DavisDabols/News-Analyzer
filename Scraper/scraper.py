@@ -6,6 +6,7 @@ import Scraper.delfi as delfi
 import Scraper.lsm as lsm
 import Scraper.tvnet as tvnet
 import Scraper.apollo as apollo
+import Scraper.apnews as apnews
 
 def Scraper(query, time):
     results = {}
@@ -36,4 +37,8 @@ def Scraper(query, time):
         results["apollo"] = apollo.ApolloScraper(query['lv'], starttime, date.today())
         if results["apollo"] == {}:
             messagebox.showwarning(title="Apollo", message="Mājaslapā Apollo nekas netika atrasts!")
+    if settings.SITES["apnews"]["enabled"].get() == True:
+        results["apnews"] = apnews.APnewsScraper(query['en'], starttime, date.today())
+        if results["apnews"] == {}:
+            messagebox.showwarning(title="APnews", message="Mājaslapā Associated Press nekas netika atrasts!")
     return results
