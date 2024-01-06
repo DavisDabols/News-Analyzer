@@ -19,7 +19,7 @@ def APnewsScraper(query, starttime, endtime):
     options.add_argument('--allow-running-insecure-content')
     options.add_experimental_option('excludeSwitches', ['enable-logging'])
     options.add_argument('--incognito')
-#    options.add_argument('--headless')
+    options.add_argument('--headless')
     browser = webdriver.Chrome(options=options)
     while True:
         URL = f"https://apnews.com/search?q={query}&s=1&p={pagenumber}"
