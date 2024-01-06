@@ -6,6 +6,8 @@ import Scraper.delfi as delfi
 import Scraper.lsm as lsm
 import Scraper.tvnet as tvnet
 import Scraper.apollo as apollo
+import Scraper.apnews as apnews
+import Scraper.cnn as cnn
 
 def Scraper(query, time):
     results = {}
@@ -21,19 +23,27 @@ def Scraper(query, time):
         return 400
     #Palaiž skrāpētājus katrai mājaslapai (gribētu loop, bet nevaru atrast kā izsaukt komandu šajā situācijā neizmantojot exec)
     if settings.SITES["delfi"]["enabled"].get() == True:
-        results["delfi"] = delfi.DelfiScraper(query, starttime, date.today())
+        results["delfi"] = delfi.DelfiScraper(query['lv'], starttime, date.today())
         if results["delfi"] == {}:
             messagebox.showwarning(title="Delfi", message="Mājaslapā delfi nekas netika atrasts!")
     if settings.SITES["lsm"]["enabled"].get() == True:
-        results["lsm"] = lsm.LSMScraper(query, starttime, date.today())
+        results["lsm"] = lsm.LSMScraper(query['lv'], starttime, date.today())
         if results["lsm"] == {}:
             messagebox.showwarning(title="LSM", message="Mājaslapā LSM nekas netika atrasts!")
     if settings.SITES["tvnet"]["enabled"].get() == True:
-        results["tvnet"] = tvnet.TvnetScraper(query, starttime, date.today())
+        results["tvnet"] = tvnet.TvnetScraper(query['lv'], starttime, date.today())
         if results["tvnet"] == {}:
             messagebox.showwarning(title="TVNET", message="Mājaslapā TVNET nekas netika atrasts!")
     if settings.SITES["apollo"]["enabled"].get() == True:
-        results["apollo"] = apollo.ApolloScraper(query, starttime, date.today())
+        results["apollo"] = apollo.ApolloScraper(query['lv'], starttime, date.today())
         if results["apollo"] == {}:
             messagebox.showwarning(title="Apollo", message="Mājaslapā Apollo nekas netika atrasts!")
+    if settings.SITES["apnews"]["enabled"].get() == True:
+        results["apnews"] = apnews.APnewsScraper(query['en'], starttime, date.today())
+        if results["apnews"] == {}:
+            messagebox.showwarning(title="APnews", message="Mājaslapā Associated Press nekas netika atrasts!")
+    if settings.SITES["cnn"]["enabled"].get() == True:
+        results["cnn"] = cnn.CNNScraper(query['en'], starttime, date.today())
+        if results["cnn"] == {}:
+            messagebox.showwarning(title="CNN", message="Mājaslapā CNN nekas netika atrasts!")
     return results

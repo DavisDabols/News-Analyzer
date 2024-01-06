@@ -26,6 +26,16 @@ SITES = {
         "name": "Apollo",
         "country": "lv",
         "enabled": tk.Variable(root, False)
+    },
+    "apnews": {
+        "name": "Associated Press",
+        "country": "en",
+        "enabled": tk.Variable(root, False)
+    },
+    "cnn": {
+        "name": "CNN",
+        "country": "en",
+        "enabled": tk.Variable(root, False)
     }
 }
 
