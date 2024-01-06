@@ -34,11 +34,16 @@ def SiteSelection():
 
     #Izvada visas mājaslapas kā checkbox
     for site in settings.SITES:
-        SiteCheckbox = tk.Checkbutton(ss, text=f"{settings.SITES[site]['name']} [{settings.SITES[site]['country']}]", justify="left", variable=settings.SITES[site]["enabled"], onvalue=True, offvalue=False, command=UpdateSelectedSiteWidgets)
+        SiteCheckbox = tk.Checkbutton(ss, text=f"{settings.SITES[site]['name']} [{settings.SITES[site]['country']}]", variable=settings.SITES[site]["enabled"], onvalue=True, offvalue=False, command=UpdateSelectedSiteWidgets)
         SiteCheckbox.pack()
 
 def search(queryLV, queryEN, time):
-    pass
+    query = {
+        "lv": queryLV,
+        "en": queryEN
+    }
+
+    lp.openLoadingPage(query, time)
 
 
 DescriptionLabel = tk.Label(root, text="Ziņu analizators", font=('Verdana', 18))
@@ -72,7 +77,7 @@ TimeCombo.grid(row=3, column=1, padx=5, pady=5, sticky="nsew")
 
 SearchGrid.pack(padx=10, pady=10)
 
-SearchButton = tk.Button(root, text="Meklēt", font=('Verdana', 14), command=lambda: lp.openLoadingPage(SearchEntryLV.get(), SearchEntryEN.get(), TimeCombo.get()))
+SearchButton = tk.Button(root, text="Meklēt", font=('Verdana', 14), command=lambda: search(SearchEntryLV.get(), SearchEntryEN.get(), TimeCombo.get()))
 SearchButton.pack(padx=5, pady=5)
 
 root.mainloop()
