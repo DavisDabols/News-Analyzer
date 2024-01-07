@@ -43,7 +43,11 @@ def search(queryLV, queryEN, time):
         "en": queryEN
     }
 
-    lp.openLoadingPage(query, time)
+    #Pārbaude vai nav tukša ievade
+    if (SearchEntryLV["state"] == "normal" and queryLV.strip() == "") or (SearchEntryEN["state"] == "normal" and queryEN.strip() == ""):
+        messagebox.showerror(title="Ievades kļūda", message="Kādā no ievadēm nav ievadīts teksts")
+    else:
+        lp.openLoadingPage(query, time)
 
 
 DescriptionLabel = tk.Label(root, text="Ziņu analizators", font=('Verdana', 18))
