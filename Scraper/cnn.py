@@ -7,6 +7,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 import chromedriver_autoinstaller
 
+#Funkcija mājaslapas cnn.com skrāpēšanai
 def CNNScraper(query, starttime, endtime):
     #Instalē chromedriver, ja tas vēl nav izdarīts
     chromedriver_autoinstaller.install()
@@ -23,6 +24,7 @@ def CNNScraper(query, starttime, endtime):
     options.add_argument('--headless')
     browser = webdriver.Chrome(options=options)
     while True:
+        #Iegūst lapu
         URL = f"https://edition.cnn.com/search?q={query}&from={articlecounter}&size=10&page={pagenumber}&sort=newest&types=all&section="
         browser.get(URL)
         try:
@@ -41,6 +43,7 @@ def CNNScraper(query, starttime, endtime):
             browser.close()
             return articles
 
+        #Pievieno elementus rezultātu vārdnīcai
         for element in elements:
             elementText = element.find("span", class_="container__headline-text")
             elementHref = element["data-open-link"]
@@ -55,4 +58,5 @@ def CNNScraper(query, starttime, endtime):
                 return articles
             
         pagenumber = pagenumber + 1
+        #CNN meklēšanas funkcijas URL ir skaitītājs, no kuras iegūst no kura rezultāta sākt rādīt kopā ar lapas numuru
         articlecounter = articlecounter + 10

@@ -3,6 +3,7 @@ import tkinter as tk
 import Scraper.scraper as scraper
 import Pages.results as res
 
+#Funkcija Ielādes loga parādīšanai
 def openLoadingPage(query, time):
     lp = tk.Toplevel()
     
@@ -25,11 +26,13 @@ def openLoadingPage(query, time):
 
     lp.update()
 
+    #Kad logs izveidots, izsauc skrāpētāja funkciju
     results = scraper.Scraper(query, time)
 
     # Pēc Scrapper funkcijas izpildes iznīcina logu
     lp.destroy()
     lp.update()
 
+    #Parāda meklēšanas rezultātu logu
     res.searchResults(results)
 

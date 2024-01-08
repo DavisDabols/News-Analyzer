@@ -7,6 +7,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 import chromedriver_autoinstaller
 
+#Funkcija mājaslapas tvnet.lv skrāpēšanai
 def TvnetScraper(query, starttime, endtime):
     #Instalē chromedriver, ja tas vēl nav izdarīts
     chromedriver_autoinstaller.install()
@@ -22,6 +23,7 @@ def TvnetScraper(query, starttime, endtime):
     options.add_argument('--headless')
     browser = webdriver.Chrome(options=options)
     while True:
+        #Iegūst lapu
         URL = f"https://www.tvnet.lv/search?sections=4133%2C4221%2C6177%2C4232%2C5912%2C4228%2C4238%2C4281%2C4214%2C4235%2C5178&query={query}&start={starttime.year}-{starttime.month}-{starttime.day}T01%3A00%3A00%2B03%3A00&end={endtime.year}-{endtime.month}-{endtime.day}T23%3A59%3A59%2B02%3A00&fields=body%2Cauthors%2Cheadline&page={pagenumber}"
         browser.get(URL)
         try:
@@ -32,7 +34,7 @@ def TvnetScraper(query, starttime, endtime):
         soup = bs(browser.page_source, "html.parser")
         #Atrod lapas saturu
         main = soup.find(class_="structured-content")
-        #Atrod rakstu elementus
+        #Atrod rakstu elementus un izfiltrē reklāmas
         elements = []
         for e in main.find_all("article", class_="list-article"):
             if e.find(class_='list-article--commercial'):
@@ -45,6 +47,7 @@ def TvnetScraper(query, starttime, endtime):
             browser.close()
             return articles
 
+        #Pievieno elementus rezultātu vārdnīcai
         for element in elements:
             elementText = element.find("h2", class_="list-article__headline")
             elementHref = element.find("a", class_="list-article__url")

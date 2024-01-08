@@ -7,6 +7,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 import chromedriver_autoinstaller
 
+#Funkcija mājaslapas apnews.com skrāpēšanai
 def APnewsScraper(query, starttime, endtime):
     #Instalē chromedriver, ja tas vēl nav izdarīts
     chromedriver_autoinstaller.install()
@@ -22,6 +23,7 @@ def APnewsScraper(query, starttime, endtime):
     options.add_argument('--headless')
     browser = webdriver.Chrome(options=options)
     while True:
+        #Iegūst mājaslapu
         URL = f"https://apnews.com/search?q={query}&s=1&p={pagenumber}"
         browser.get(URL)
         try:
@@ -32,7 +34,7 @@ def APnewsScraper(query, starttime, endtime):
         soup = bs(browser.page_source, "html.parser")
         #Atrod lapas saturu
         main = soup.find(class_="SearchResultsModule-results")
-        #Atrod rakstu elementus
+        #Atrod rakstu elementus izfiltrējot reklāmas
         elements = []
         for e in main.find_all("div", class_="PageList-items-item"):
             if e.find(class_='SovrnAd Advertisement sovrn-hub-feed'):
@@ -45,6 +47,7 @@ def APnewsScraper(query, starttime, endtime):
             browser.close()
             return articles
 
+        #Pievieno elementus rezultātu vārdnīcai
         for element in elements:
             elementText = element.find("span", class_="PagePromoContentIcons-text")
             elementHref = element.find("a", class_="Link")

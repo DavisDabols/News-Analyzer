@@ -3,7 +3,6 @@ from tkinter import ttk
 from tkinter import messagebox
 
 import settings
-import Scraper.scraper as scraper
 import Pages.loading_page as lp
 
 #Paņem galveno logu no iestatījumu faila
@@ -11,9 +10,11 @@ root = settings.root
 
 #Funkcija SiteLabel teksta atjaunošanai un attiecīgās valodas ievades ieslēgšanai
 def UpdateSelectedSiteWidgets():
+    #Atjauno label izvēlēto mājaslapu skaitam
     SELECTEDSITECOUNT = sum(settings.SITES[site]["enabled"].get() == True for site in settings.SITES)
     SiteLabel.configure(text=f"Izvēlēto mājaslapu skaits: {SELECTEDSITECOUNT}")
 
+    #Izslēdz 
     SearchEntryLV.config(state="disabled")
     SearchEntryEN.config(state="disabled")
 
@@ -37,6 +38,7 @@ def SiteSelection():
         SiteCheckbox = tk.Checkbutton(ss, text=f"{settings.SITES[site]['name']} [{settings.SITES[site]['country']}]", variable=settings.SITES[site]["enabled"], onvalue=True, offvalue=False, command=UpdateSelectedSiteWidgets)
         SiteCheckbox.pack()
 
+#Funkcija lai izsauktu meklēšanu
 def search(queryLV, queryEN, time):
     query = {
         "lv": queryLV,
@@ -49,7 +51,7 @@ def search(queryLV, queryEN, time):
     else:
         lp.openLoadingPage(query, time)
 
-
+#Galvenā loga izskats
 DescriptionLabel = tk.Label(root, text="Ziņu analizators", font=('Verdana', 18))
 DescriptionLabel.pack(padx=10, pady=10)
 

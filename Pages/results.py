@@ -15,6 +15,7 @@ from matplotlib.backends.backend_tkagg import (
     NavigationToolbar2Tk # built-in toolbar for the figure
 )
 
+#Funkcija raksta atvēršanai 
 def onDoubleClick(event):
     SearchTree = event.widget
     article = SearchTree.identify('item',event.x,event.y)
@@ -22,6 +23,7 @@ def onDoubleClick(event):
     if link != "":
         wb.open_new_tab(link)
 
+#Funkcija rezultātu nosūtīšanai uz excel failu
 def toExcel(results):
     articleList = []
     for result in results:
@@ -31,7 +33,9 @@ def toExcel(results):
     file_name = filedialog.asksaveasfilename(filetypes=[('excel file', '*.xlsx')], defaultextension='.xlsx', initialfile=f"results-{datetime.now().strftime('%d-%m-%yT%H-%M')}")
     df.to_excel(file_name, sheet_name='results', index=False, header=["Mājaslapa", "Virsraksts", "Datums", "Lapa"])
 
+#Funkcija dienā izveidoto rakstu diagrammas parādīšanai
 def dailyGraph(results):
+    #Iegūst dienā izveidoto rakstu skaitu un saglabā to countDict vārdnīcā
     countDict = {}
     for result in results:
         for article in results[result]:
@@ -41,10 +45,12 @@ def dailyGraph(results):
             else:
                 countDict[day] = 1
 
+    #Ja dienu skaits ir mazāks par 2, tad no diagrammas nav jēga, tādēļ tiek parādīta kļūda
     if len(set(countDict.keys())) < 2:
         messagebox.showerror(title="Diagrammas kļūda", message="Nav rezultāti par pietiekami daudz dienām!")
         return
     
+    #Piepilda vārdnīcu ar dienām starp, kurās nav raksti
     minDay = min(countDict)
     maxDay = max(countDict)
 
@@ -53,10 +59,12 @@ def dailyGraph(results):
         if day not in countDict:
             countDict[day] = 0
 
+    #Sakārto dienas un iegūst x un y asis diagrammai
     countDict = dict(sorted(countDict.items()))
     x = list(countDict.keys())
     y = list(countDict.values())
 
+    #Izveido logu un grafiku
     graphWindow = tk.Toplevel()
     graphWindow.title("Dienā izveidoto rakstu diagramma")
 
@@ -67,6 +75,7 @@ def dailyGraph(results):
     for tick in graph.get_xticklabels():
         tick.set_rotation(90)
 
+    #Savieno logu ar grafiku un pievieno toolbar
     canvas = FigureCanvasTkAgg(figure, graphWindow)
     canvas.draw()
     toolbar = NavigationToolbar2Tk(canvas, graphWindow)
@@ -76,13 +85,17 @@ def dailyGraph(results):
 
     graphWindow.update()
 
+#Funkcija mājaslapu rakstu skaita diagrammas parādīšanai
 def siteGraph(results):
+    #Izveido logu
     graphWindow = tk.Toplevel()
     graphWindow.title("Mājaslapu rakstu skaita diagramma")
 
+    #Iegūst x un y asis
     x = results.keys()
     y = list(map(lambda site: len(results[site]), results))
 
+    #Izveido grafiku un pievieno to logam ar toolbar
     figure = matplotlib.figure.Figure()
     graph = figure.add_subplot()
     graph.bar(x, y)
@@ -96,7 +109,9 @@ def siteGraph(results):
 
     graphWindow.update()
 
+#Funkcija meklēšanas rezultātu loga parādīšanai
 def searchResults(results):
+    #Izveido logu
     sresult = tk.Toplevel()
     sresult.title("Meklēšanas rezultāti")
     sresult.geometry("850x500")
@@ -104,6 +119,7 @@ def searchResults(results):
     DescriptionLabel = tk.Label(sresult, text="Meklēšanas rezultāti", font=('Verdana', 18))
     DescriptionLabel.pack(padx=10, pady=10)
 
+    #Rāmis excel un diagrammu pogām
     ButtonFrame = tk.Frame(sresult)
 
     DailyArticlesButton = tk.Button(ButtonFrame, text="Dienā izveidoto rakstu diagramma", font=('Verdana', 14), command=lambda: dailyGraph(results))

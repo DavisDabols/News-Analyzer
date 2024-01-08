@@ -7,6 +7,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 import chromedriver_autoinstaller
 
+#Funkcija mājaslapas delfi.lv skrāpēšanai
 def DelfiScraper(query, starttime, endtime):
     #Instalē chromedriver, ja tas vēl nav izdarīts
     chromedriver_autoinstaller.install()
@@ -22,6 +23,7 @@ def DelfiScraper(query, starttime, endtime):
     options.add_argument('--headless')
     browser = webdriver.Chrome(options=options)
     while True:
+        #Iegūst lapu
         #Delfi mājaslapas kļūmes dēļ nevar iegūt laika periodus no mājaslapas (vienmēr automātiski atjaunojas uz 1.1.24)
         URL = f"https://www.delfi.lv/archive?search={query}&from=1/1/2024,+12:00:00+AM&to={endtime.day}/{endtime.month}/{endtime.year},+11:59:59+PM&page={pagenumber}&order=PUBLISH_AT&domain=www.delfi.lv"
         browser.get(URL)
@@ -41,6 +43,7 @@ def DelfiScraper(query, starttime, endtime):
             browser.close()
             return articles
 
+        #Pievieno elementus rezultātu vārdnīcai
         for element in elements:
             elementText = element.find("a", class_="")
             elementDate = element.find("time", class_="text-size-7")

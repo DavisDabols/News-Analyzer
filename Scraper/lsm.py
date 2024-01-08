@@ -8,6 +8,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 import chromedriver_autoinstaller
 
+#Funkcija mājaslapas lsm.lv skrāpēšanai
 def LSMScraper(query, starttime, endtime):
     #Instalē chromedriver, ja tas vēl nav izdarīts
     chromedriver_autoinstaller.install()
@@ -24,6 +25,7 @@ def LSMScraper(query, starttime, endtime):
     options.add_argument('--headless')
     browser = webdriver.Chrome(options=options)
     while True:
+        #Iegūst lapu
         URL = f"https://www.lsm.lv/meklet/?search_q={query}#gsc.tab=0&gsc.q={query}&gsc.sort=date&gsc.page={pagenumber}&gsc.ref=more%3Alsm.lv"
         browser.get(URL)
         try:
@@ -42,6 +44,7 @@ def LSMScraper(query, starttime, endtime):
             browser.close()
             return articles
 
+        #Pievieno elementus rezultātu vārdnīcai
         for element in elements:
             elementText = element.find("a", class_="gs-title")
             elementDate = re.search("[0-9]{2}\.[0-9]{2}\.[0-9]{4}", elementText["data-ctorig"])
