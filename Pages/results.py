@@ -5,8 +5,6 @@ from tkinter import messagebox
 import webbrowser as wb
 import pandas as pd
 from datetime import datetime, timedelta
-from datetime import date
-import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
 

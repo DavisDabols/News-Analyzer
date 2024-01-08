@@ -1,4 +1,4 @@
-from datetime import datetime, date
+from datetime import datetime
 from bs4 import BeautifulSoup as bs
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
